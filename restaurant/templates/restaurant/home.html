@@ -1,0 +1,21 @@
+{% extends "restaurant/base.html" %}
+
+{% block content%}
+{% for post in posts %}
+<article class="media content-section">
+  <div class="media-body">
+    <div class="article-metadata">
+     
+      <small><font size="5" color="SteelBlue">{{ post.category }}</font></small>&nbsp;
+      <small class="text-muted">Address : {{ post.address }}</small>
+    </div>
+    
+    <h2><a class="article-title" href="{% url 'rest_reviews' post.id%}">{{ post.name }}</a></h2>
+    
+    
+    <small class="text-muted"> Average Rating : {{ post.avg_rating }}</small>
+    <small><a href="user/new" class = "btn btn-success btn-sm" role="button">Make review</a></small>
+  </div>
+</article>
+{% endfor %}
+{% endblock%}

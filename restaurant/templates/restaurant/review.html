@@ -1,0 +1,62 @@
+{% extends "restaurant/base.html" %}
+{% load crispy_forms_tags %}
+{% block content %}
+
+<article class="media content-section">
+	<div class="media-body">
+		<div class="article-metadata">
+			<small><font size="5" color="SteelBlue">{{ posts.category }}</font></small>
+			<small class="text-muted">Address : {{ posts.address }}</small>
+		</div>
+		<h2><a class="article-title" href="#">{{ posts.name }} &nbsp;</a></h2>
+	</div>
+</article>
+
+    <div class="content-section">
+        <form method="POST">
+            {% csrf_token %}
+            <fieldset class="form-group">
+                <legend class="border-bottom mb-4">Review</legend>
+                {{ form|crispy }}
+            </fieldset>
+            <div class="form-group">
+                <button class="btn btn-outline-info" type="submit">Post</button>
+            </div>
+        </form>
+    </div>
+
+<article class="media content-section">
+	<div class="media-body">
+		<div class="article-metadata">
+			<small><font size="5" color="SteelBlue"> Average Rating : {{ posts.avg_rating }}</font></small>
+
+		</div>
+		<div class="container">
+			{% if user%}
+
+			<br>
+			<div class="row justify-content-between">
+				<div class="col-4">
+					<h3>Reviews</h3>
+				</div>
+
+			</div><br>
+			{% for customers in cust%}
+
+
+			<small><font size="4" color="black" class="font-weight-bold">{{customers.author}}</font></small>&nbsp;&nbsp;
+			<small><font size="2" color="SteelBlue">{{customers.date_posted|date:"F d, Y" }}</font></small>
+			<br>
+			<p class="article-content"> " {{customers.comment}} "</p>
+
+			<hr>
+			{% endfor %}
+			{%endif%}
+		</div>
+	</div>
+</article>
+
+
+{% endblock content %}
+
+
