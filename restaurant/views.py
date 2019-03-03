@@ -4,6 +4,7 @@ from users.models import user
 from django.views.generic import ListView
 from django.views.generic import CreateView
 from users.forms import commentform
+from users.models import user
 from django.contrib.auth.decorators import login_required
 
 
@@ -11,7 +12,8 @@ from django.contrib.auth.decorators import login_required
 def home(request):
 
     context = {
-        'posts': restaurant.objects.all()
+        'posts': restaurant.objects.all(),
+        'review': user.objects.all()
     }
     return render(request, 'restaurant/home.html', context)
 
@@ -22,13 +24,7 @@ class PostListView(ListView):
     context_object_name = 'posts'
 
    
-class userCreateView(CreateView):
-    model = user
-    fields = ['comment']
 
-    def form_valid(self,form):
-        form.instance.author = self.request.user
-        return super().form_valid(form)
 
 
 def filterRest(request,category):
@@ -52,8 +48,7 @@ def restReviews(request,ID):
          post = form.save(commit = False)
          post.rest = restaurant.objects.get(id = ID)
          post.author = request.user
-         post.save()
-           
+         post.save()   
          return redirect('rest_reviews',ID)
     else:
         form = commentform() 
